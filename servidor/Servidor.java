@@ -1,34 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package servidor;
+import java.rmi.*;
+import java.rmi.server.*;
 
-import java.rmi.Naming;
-import java.rmi.RMISecurityManager;
-import java.rmi.RemoteException;
-
-/**
- *
- * @author nico
- */
-public class Servidor {
-
-    public static void main(String args[]) {
-          if (args.length!=2) {
-            System.err.println("Uso: Servidor IP Puerto");
+class Servidor {
+    static public void main(String args[]) {
+        if (args.length != 1) {
+            System.err.println("Uso: Servidor Puerto");
             return;
         }
-     
+        if (System.getSecurityManager() == null) {
+            // System.setSecurityManager(new RMISecurityManager());
+            System.setProperty("java.rmi.server.hostname", "localhost");
+        }
         try {
-            ConsultaImp consulta = new ConsultaImp();
-            Naming.rebind("rmi://" + args[0] + ":" + args[1] + "/ConsultaImp", consulta);
+            Calculadora calc = new CalculadoraImp();
+            Naming.rebind("rmi://localhost:" + args[0] + "/CalculadoraImp", calc);
         } catch (RemoteException e) {
             System.err.println("Error de comunicacion: " + e.toString());
             System.exit(1);
         } catch (Exception e) {
-            System.err.println("Excepcion en Servidor:");
+            System.err.println("Excepcion en ServidorEco:");
             e.printStackTrace();
             System.exit(1);
         }
