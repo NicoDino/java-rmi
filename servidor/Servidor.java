@@ -12,13 +12,13 @@ class Servidor {
             System.setProperty("java.rmi.server.hostname", "localhost");
         }
         try {
-            Calculadora calc = new CalculadoraImp();
-            Naming.rebind("rmi://localhost:" + args[0] + "/CalculadoraImp", calc);
+            ConsultaImp consulta = new ConsultaImp();
+            Naming.rebind("rmi://localhost:" + args[0] + "/ConsultaImp", consulta);
         } catch (RemoteException e) {
             System.err.println("Error de comunicacion: " + e.toString());
             System.exit(1);
         } catch (Exception e) {
-            System.err.println("Excepcion en ServidorEco:");
+            System.err.println("Excepcion en Servidor: ");
             e.printStackTrace();
             System.exit(1);
         }
